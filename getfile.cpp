@@ -12,7 +12,6 @@ int main(int argc,char *argv[]){
     printf("\"%s\"\n",argv[1]);
     printf("\"%s\"\n",argv[2]);
 
-    Sleep(1000);
     string url = argv[2];
     
     //for Windows
@@ -54,21 +53,20 @@ int main(int argc,char *argv[]){
         section="Missing";
     }else{
         fgets(sectionchar,sizeof(sectionchar),fp);
-        cout << sectionchar << endl;
         section=string(sectionchar);
     }
     pclose(fp);
     
     //for debug
-    string file = "C:\\Users\\ytjvd\\Desktop\\VketURLImporter\\url.html";
-    //string file = filepath + "url.html";
+    //string file = "C:\\Users\\ytjvd\\Desktop\\VketURLImporter\\url.html";
+    
+    string file = filepath + "url.html";
     fp = fopen(file.c_str(),"a");
     fprintf(fp,"<li><a href=%s target=\"_blank\">%s</a></li>\n",url.c_str(),title.c_str());
     fprintf(fp,"World:%s<br>Section:%s\n",world.c_str(),section.c_str());
     fclose(fp);
 
     cout << "title: " << title << "world: " << world << "section: " << section << endl;
-    getchar();
 
     return 0;
 }
