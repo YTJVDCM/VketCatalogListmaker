@@ -25,11 +25,16 @@ int main(int argc,char *argv[]){
     string gettitle="runtime\\curl.exe -s -L \""+url+"\"|runtime\\grep.exe -oP \"(?<=<title>)(.+)(?=</title>)\"";
     string getworld="runtime\\curl.exe -s -L "+url+"|runtime\\grep.exe -oP \"(?<=<span\\sclass=\\\"world_name\\\">)(.+)(?=</span>)\"";
     string getsection="runtime\\curl.exe -s -L "+url+"|runtime\\grep.exe -oP \"(?<=<span\\sclass=\\\"section_name\\\">)(.+)(?=</span>)\"";
+    string getheader="runtime\\curl.exe -s -L "+url+"|runtime\\grep.exe -oP \"(?<=<section\\sclass=\\\"user_header\\\"\\sstyle=\\\"background-image:\\surl\\()(.+)(?=\\)\\\">)\"";
+    string geticon="runtime\\curl.exe -s -L "+url+"|runtime\\grep.exe -oP \"(?<=<img\\ssrc=\\\")(.+)(?=\\\"\\sclass=\\\"user_icon\\\">)\"";
+    
 
     char titlechar[260]="";
     char vketchar[260]="";
     char worldchar[256]="";
     char sectionchar[256]="";
+    char headerchar[256]="";
+    char iconchar[256]="";
     string title;
     string vket;
     
@@ -66,9 +71,26 @@ int main(int argc,char *argv[]){
         if(strcmp(sectionchar,"")==0)section="Missing\n";
     }
     pclose(fp);
-    
-    //for debug
-    //string file = "C:\\Users\\ytjvd\\Desktop\\VketURLImporter\\url.html";
+
+    string header;
+    if((fp=popen(getheader.c_str(),"r"))==NULL){
+        header="image/noimage.png";
+    }else{
+        fgets(headerchar,sizeof(headerchar),fp);
+        header=string(headerchar);
+        if(strcmp(headerchar,"")==0)header="image/noimage.png";
+    }
+    pclose(fp);
+
+    string icon;
+    if((fp=popen(geticon.c_str(),"r"))==NULL){
+        icon="image/noimage.png";
+    }else{
+        fgets(iconchar,sizeof(iconchar),fp);
+        icon=string(iconchar);
+        if(strcmp(iconchar,"")==0)icon="image/noimage.png";
+    }
+    pclose(fp);
     
     picojson::value v;
     ifstream json;
@@ -102,6 +124,8 @@ int main(int argc,char *argv[]){
     maindata.insert(make_pair("Vket",picojson::value(vket)));
     maindata.insert(make_pair("World",picojson::value(world)));
     maindata.insert(make_pair("Section",picojson::value(section)));
+    maindata.insert(make_pair("Icon",picojson::value(icon)));
+    maindata.insert(make_pair("Header",picojson::value(header)));
     vketdata.push_back(picojson::value(maindata));
 
     string jsonout = picojson::value(o).serialize();
