@@ -1,6 +1,7 @@
 #include <bits/stdc++.h>
 #include <windows.h>//for Windows
 #include <unistd.h>
+#include "picojson.h"
 using namespace std;
 
 string GetPathWin();//for Windows
@@ -25,17 +26,24 @@ int main(int argc,char *argv[]){
     string getworld="runtime\\curl.exe -s -L "+url+"|runtime\\grep.exe -oP \"(?<=<span\\sclass=\\\"world_name\\\">)(.+)(?=</span>)\"";
     string getsection="runtime\\curl.exe -s -L "+url+"|runtime\\grep.exe -oP \"(?<=<span\\sclass=\\\"section_name\\\">)(.+)(?=</span>)\"";
 
-    char titlechar[260];
-    char worldchar[256];
-    char sectionchar[256];
+    char titlechar[260]="";
+    char vketchar[260]="";
+    char worldchar[256]="";
+    char sectionchar[256]="";
     string title;
+    string vket;
     
     FILE *fp;
     if((fp=popen(gettitle.c_str(),"r"))==NULL){
         title=url;
+        vket="None";
     }else{
         fgets(titlechar,sizeof(titlechar),fp);
+        fgets(vketchar,sizeof(vketchar),fp);
         title=string(titlechar);
+        vket=string(vketchar);
+        if(strcmp(titlechar,"")==0)title="Missing\n";
+        if(strcmp(vketchar,"")==0)vket="Missing\n";
     }
     pclose(fp);
 
@@ -45,6 +53,7 @@ int main(int argc,char *argv[]){
     }else{
         fgets(worldchar,sizeof(worldchar),fp);
         world=string(worldchar);
+        if(strcmp(worldchar,"")==0)world="Missing\n";
     }
     pclose(fp);
 
@@ -54,19 +63,59 @@ int main(int argc,char *argv[]){
     }else{
         fgets(sectionchar,sizeof(sectionchar),fp);
         section=string(sectionchar);
+        if(strcmp(sectionchar,"")==0)section="Missing\n";
     }
     pclose(fp);
     
     //for debug
     //string file = "C:\\Users\\ytjvd\\Desktop\\VketURLImporter\\url.html";
     
-    string file = filepath + "url.html";
-    fp = fopen(file.c_str(),"a");
-    fprintf(fp,"<li><a href=%s target=\"_blank\">%s</a></li>\n",url.c_str(),title.c_str());
-    fprintf(fp,"World:%s<br>Section:%s\n",world.c_str(),section.c_str());
-    fclose(fp);
+    picojson::value v;
+    ifstream json;
+    string jsondata="";
+    json.open("cataloglist.json");
+    while(!json.eof()){
+        string work = "";
+        json >> work;
+        jsondata += work;
+    }
+    json.close();
+    string err=parse(v,jsondata);//エラー判定だよ、ついでにパースもするらしいよ。パースって何だ。
+    if(!err.empty()){
+        cerr<<picojson::get_last_error()<<endl;
+        return 1;
+    }
+    cout << v << endl;//出力するよ。
+    if(!v.is<picojson::object>()){
+        cerr << "JSON is not an Object" << endl;
+        return 1;
+    }
+    picojson::object& o = v.get<picojson::object>();
+    for(picojson::object::const_iterator i=o.begin();i!=o.end();++i)cout<<i->first<<" "<<i->second<<endl;
+    
+    picojson::value& c = o["VketData"];
+    picojson::array& vketdata = c.get<picojson::array>();
+    picojson::object maindata;
 
-    cout << "title: " << title << "world: " << world << "section: " << section << endl;
+    maindata.insert(make_pair("Title",picojson::value(title)));
+    maindata.insert(make_pair("URL",picojson::value(url)));
+    maindata.insert(make_pair("Vket",picojson::value(vket)));
+    maindata.insert(make_pair("World",picojson::value(world)));
+    maindata.insert(make_pair("Section",picojson::value(section)));
+    vketdata.push_back(picojson::value(maindata));
+
+    string jsonout = picojson::value(o).serialize();
+
+    ofstream jsonput;
+    jsonput.open("cataloglist.json");
+    if(!jsonput){
+        cout << "ファイル書き込み失敗" << endl;
+        return 1;
+    }
+    jsonput << jsonout << endl;
+    jsonput.close();
+
+    cout << "Title: " << title << "Vket:" << vket << "World: " << world << "Section: " << section << endl;
 
     return 0;
 }
