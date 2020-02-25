@@ -1,6 +1,7 @@
 #include <bits/stdc++.h>
 #include <windows.h>//for Windows
 #include <unistd.h>
+#include <shlobj.h>
 #include "header\picojson.h"
 using namespace std;
 
@@ -91,11 +92,15 @@ int main(int argc,char *argv[]){
         if(strcmp(iconchar,"")==0)icon="image/noimage.png";
     }
     pclose(fp);
-    
     picojson::value v;
     ifstream json;
     string jsondata="";
-    json.open("cataloglist.json");
+    char mydocuments[260];
+    SHGetSpecialFolderPath(NULL,mydocuments,CSIDL_PERSONAL,0);
+    string jsonpath=string(mydocuments)+"\\VketCatalogListMaker\\cataloglist.json";
+    string mkdir="mkdir "+string(mydocuments)+"\\VketCatalogListMaker";
+    system(mkdir.c_str());
+    json.open(jsonpath.c_str());
     while(!json.eof()){
         string work = "";
         json >> work;
