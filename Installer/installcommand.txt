@@ -1,0 +1,3 @@
+candle -arch x64 -nologo untitled.wxs -out untitled.obj -ext WixUIExtension
+
+light -nologo untitled.obj -out untitled.msi -ext WixUIExtension

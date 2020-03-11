@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
     <Product Id="E23DD1F7-21D9-4E21-B8F2-A71F15A1AA9B" Name="VketCatalogListMaker" Language="1041" Version="1.0.0" Manufacturer="YTJVDCM" UpgradeCode="6D08474F-9D84-4067-BA08-CFE27DC1913F" Codepage="932">
-        <Package Description="Outputs the URL of the catalog opened in VKet as a JSON file." Comments="Outputs the URL of the catalog opened in VKet as a JSON file." InstallerVersion="200" Compressed="yes" SummaryCodepage="932" />
+        <Package Description="Outputs the URL of the catalog opened in VKet as a JSON file." Comments="Outputs the URL of the catalog opened in VKet as a JSON file." InstallerVersion="200" Compressed="yes" SummaryCodepage="932" Platform="x64" />
         <Media Id="1" Cabinet="simple.cab" EmbedCab="yes" />
         <Directory Id="TARGETDIR" Name="SourceDir">
-            <Directory Id="ProgramFilesFolder" Name="PFiles">
+            <Directory Id="ProgramFiles64Folder" Name="PFiles">
                 <Directory Id="VKETCATALOGLISTMAKER" Name="VketCatalogListMaker">
                     <Component Id="LISTRESETTER.EXE" DiskId="1" Guid="6BFDA852-1455-4637-AEC7-AC62B7E6E674">
                         <File Id="LISTRESETTER.EXE" Name="ListResetter.exe" Source="C:\Users\ytjvd\Desktop\VketURLImporter\VketCatalogListmaker\release\VketCatalogListMaker\ListResetter.exe" />
@@ -13,12 +13,15 @@
                         <File Id="VCLM.EXE" Name="vclm.exe" Source="C:\Users\ytjvd\Desktop\VketURLImporter\VketCatalogListmaker\release\VketCatalogListMaker\vclm.exe">
                             <Shortcut Id="ExeShortcut" Directory="ProgramMenuDir" Name="VKetCatalogListMaker" Advertise="yes" Icon="StartMenuIcon.exe" IconIndex="0" />
                         </File>
-                        <RegistryValue Id="RegAppRegv" Root="HKLM" Key="SOFTWARE\RegisteredApplications" Type="string" Value="Software\VCLM\Capabilities" />
-                        <RegistryValue Id="URLsAscRegv" Root="HKLM" Key="SOFTWARE\VCLM\Capabilities" Type="string" Value="https" />
-                        <RegistryValue Id="URLAscRegv" Root="HKLM" Key="SOFTWARE\VCLM\Capabilities" Type="string" Value="http" />
-                        <RegistryValue Id="comRegv" Root="HKCR" Key="VCLM.EXE\shell\open\command" Type="string" Value="&quot;[#VCLM.EXE]&quot; &quot;%1&quot;" />
                         <RegistryValue Id="URLProtcRegv" Root="HKCR" Key="http" Type="string" Value="URL Protocol" />
                         <RegistryValue Id="URLsProtcRegv" Root="HKCR" Key="https" Type="string" Value="URL Protocol" />
+                        <RegistryValue Id="comRegvp" Root="HKCR" Key="VCLM.EXE-http\shell\Open\command" Type="string" Value="&quot;[#VCLM.EXE]&quot; &quot;--&quot; &quot;%1&quot;" />
+                        <RegistryValue Id="comRegvps" Root="HKCR" Key="VCLM.EXE-https\shell\Open\command" Type="string" Value="&quot;[#VCLM.EXE]&quot; &quot;--&quot; &quot;%1&quot;" />
+                        <RegistryValue Id="RegAppDisc" Root="HKLM" Key="SOFTWARE\VCLM\Capabilities" Type="string" Name="ApplicationDescription" Value="Outputs the URL of the catalog opened in VKet as a JSON file." />
+                        <RegistryValue Id="RegAppName" Root="HKLM" Key="SOFTWARE\VCLM\Capabilities" Type="string" Name="ApplicationName" Value="VCLM" />
+                        <RegistryValue Id="RegHttpFA" Root="HKLM" Key="SOFTWARE\VCLM\Capabilities\URLAssociations" Type="string" Name="http" Value="VCLM.EXE-http" />
+                        <RegistryValue Id="RegHttpsFA" Root="HKLM" Key="SOFTWARE\VCLM\Capabilities\URLAssociations" Type="string" Name="https" Value="VCLM.EXE-https" />
+                        <RegistryValue Id="RegAppRegv" Root="HKLM" Key="SOFTWARE\RegisteredApplications" Name="VCLM" Type="string" Value="SOFTWARE\VCLM\Capabilities" />
                     </Component>
                     <Directory Id="RUNTIME" Name="runtime">
                         <Component Id="CURL_CA_BUNDLE.CRT" DiskId="1" Guid="19345A0B-95E2-42C1-9194-2687A4314554">
@@ -75,7 +78,7 @@
         <UIRef Id="WixUI_InstallDir" />
         <Icon Id="StartMenuIcon.exe" SourceFile="C:\Users\ytjvd\Desktop\VketURLImporter\VketCatalogListmaker\release\VketCatalogListMaker\vclm.exe" />
         <Property Id="WIXUI_INSTALLDIR" Value="VKETCATALOGLISTMAKER" />
-        <WixVariable Id="WixUILicenseRtf" Value="license.rtf" />
         <Binary Id="license.rtf" SourceFile="C:\Users\ytjvd\Desktop\VketURLImporter\VketCatalogListmaker\license.rtf" />
+        <WixVariable Id="WixUILicenseRtf" Value="license.rtf" />
     </Product>
 </Wix>
