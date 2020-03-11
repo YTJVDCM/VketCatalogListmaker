@@ -12,9 +12,9 @@ string GetPathWin();//for Windows
 int main(int argc,char *argv[]){
     printf("\"%s\"\n",argv[0]);
     printf("\"%s\"\n",argv[1]);
-    printf("\"%s\"\n",argv[2]);
+    //printf("\"%s\"\n",argv[2]);
 
-    string url = argv[2];
+    string url = argv[1];
     
     //for Windows
     string filepath = GetPathWin();
@@ -22,6 +22,7 @@ int main(int argc,char *argv[]){
     //for Linux
     //string filepath = GetPathLinux().c_str();
     
+    //探索用コマンド群
     chdir(filepath.c_str());
     string gettitle="runtime\\curl.exe -s -L \""+url+"\"|runtime\\grep.exe -oP \"(?<=<title>)(.+)(?=</title>)\"";
     string getworld="runtime\\curl.exe -s -L "+url+"|runtime\\grep.exe -oP \"(?<=<span\\sclass=\\\"world_name\\\">)(.+)(?=</span>)\"";
@@ -38,7 +39,23 @@ int main(int argc,char *argv[]){
     char iconchar[256]="";
     string title;
     string vket;
+    char mydocuments[260];
+    SHGetSpecialFolderPath(NULL,mydocuments,CSIDL_PERSONAL,0);
+    string filecheck = string(mydocuments)+"\\VletCatalogListMaker\\cataloglist.json";
     
+    //ファイルの存在チェック(なければ作成)
+    if(access(filecheck.c_str(),0)!=0){
+        string mkdir="mkdir "+string(mydocuments)+"\\VketCatalogListMaker";
+        system(mkdir.c_str());
+        FILE *fp;
+        fp = fopen(filecheck.c_str(),"w");
+        fprintf(fp,"{\"VketData\": []}");
+        fclose(fp);
+    }
+
+    
+    //こっからデータ取得
+    //タイトル
     FILE *fp;
     if((fp=popen(gettitle.c_str(),"r"))==NULL){
         title=url;
@@ -53,6 +70,7 @@ int main(int argc,char *argv[]){
     }
     pclose(fp);
 
+    //ワールド
     string world;
     if((fp=popen(getworld.c_str(),"r"))==NULL){
         world="Missing";
@@ -63,6 +81,7 @@ int main(int argc,char *argv[]){
     }
     pclose(fp);
 
+    //エリア
     string section;
     if((fp=popen(getsection.c_str(),"r"))==NULL){
         section="Missing";
@@ -73,6 +92,7 @@ int main(int argc,char *argv[]){
     }
     pclose(fp);
 
+    //ヘッダー画像URL
     string header;
     if((fp=popen(getheader.c_str(),"r"))==NULL){
         header="image/noimage.png";
@@ -83,6 +103,7 @@ int main(int argc,char *argv[]){
     }
     pclose(fp);
 
+    //アイコン画像URL
     string icon;
     if((fp=popen(geticon.c_str(),"r"))==NULL){
         icon="image/noimage.png";
@@ -92,14 +113,13 @@ int main(int argc,char *argv[]){
         if(strcmp(iconchar,"")==0)icon="image/noimage.png";
     }
     pclose(fp);
+    //ここまでデータ取得
+
+    //JSONデータ作成
     picojson::value v;
     ifstream json;
     string jsondata="";
-    char mydocuments[260];
-    SHGetSpecialFolderPath(NULL,mydocuments,CSIDL_PERSONAL,0);
     string jsonpath=string(mydocuments)+"\\VketCatalogListMaker\\cataloglist.json";
-    string mkdir="mkdir "+string(mydocuments)+"\\VketCatalogListMaker";
-    system(mkdir.c_str());
     json.open(jsonpath.c_str());
     while(!json.eof()){
         string work = "";
@@ -107,12 +127,12 @@ int main(int argc,char *argv[]){
         jsondata += work;
     }
     json.close();
-    string err=parse(v,jsondata);//エラー判定だよ、ついでにパースもするらしいよ。パースって何だ。
+    string err=parse(v,jsondata);
     if(!err.empty()){
         cerr<<picojson::get_last_error()<<endl;
         return 1;
     }
-    cout << v << endl;//出力するよ。
+    cout << v << endl;
     if(!v.is<picojson::object>()){
         cerr << "JSON is not an Object" << endl;
         return 1;
@@ -143,7 +163,9 @@ int main(int argc,char *argv[]){
     }
     jsonput << jsonout << endl;
     jsonput.close();
+    //ここまでデータ作成
 
+    //デバッグ用出力
     cout << "Title: " << title << "Vket:" << vket << "World: " << world << "Section: " << section << endl;
 
     return 0;
