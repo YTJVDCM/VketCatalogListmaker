@@ -100,7 +100,7 @@ int main(int argc,char *argv[]){
     }else{
         fgets(headerchar,sizeof(headerchar),fp);
         header=string(headerchar);
-        if(strcmp(headerchar,"")==0)header="image/noimage.png";
+        if(strcmp(headerchar,"")==0)header="image/noheaderimage.png";
     }
     pclose(fp);
 
