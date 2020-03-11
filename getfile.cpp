@@ -30,7 +30,7 @@ int main(int argc,char *argv[]){
     string getheader="runtime\\curl.exe -s -L "+url+"|runtime\\grep.exe -oP \"(?<=<section\\sclass=\\\"user_header\\\"\\sstyle=\\\"background-image:\\surl\\()(.+)(?=\\)\\\">)\"";
     string geticon="runtime\\curl.exe -s -L "+url+"|runtime\\grep.exe -oP \"(?<=<img\\ssrc=\\\")(.+)(?=\\\"\\sclass=\\\"user_icon\\\">)\"";
     
-
+    FILE *fp;
     char titlechar[260]="";
     char vketchar[260]="";
     char worldchar[256]="";
@@ -41,14 +41,16 @@ int main(int argc,char *argv[]){
     string vket;
     char mydocuments[260];
     SHGetSpecialFolderPath(NULL,mydocuments,CSIDL_PERSONAL,0);
-    string filecheck = string(mydocuments)+"\\VletCatalogListMaker\\cataloglist.json";
+
+    string jsonpath=string(mydocuments)+"\\VketCatalogListMaker\\cataloglist.json";
     
+    int acs = access(jsonpath.c_str(),0);
+    printf("%d",acs);
     //ファイルの存在チェック(なければ作成)
-    if(access(filecheck.c_str(),0)!=0){
+    if(acs==-1){
         string mkdir="mkdir "+string(mydocuments)+"\\VketCatalogListMaker";
         system(mkdir.c_str());
-        FILE *fp;
-        fp = fopen(filecheck.c_str(),"w");
+        fp = fopen(jsonpath.c_str(),"w");
         fprintf(fp,"{\"VketData\": []}");
         fclose(fp);
     }
@@ -56,7 +58,6 @@ int main(int argc,char *argv[]){
     
     //こっからデータ取得
     //タイトル
-    FILE *fp;
     if((fp=popen(gettitle.c_str(),"r"))==NULL){
         title=url;
         vket="None";
@@ -119,7 +120,6 @@ int main(int argc,char *argv[]){
     picojson::value v;
     ifstream json;
     string jsondata="";
-    string jsonpath=string(mydocuments)+"\\VketCatalogListMaker\\cataloglist.json";
     json.open(jsonpath.c_str());
     while(!json.eof()){
         string work = "";
@@ -156,7 +156,7 @@ int main(int argc,char *argv[]){
     string jsonout = picojson::value(o).serialize();
 
     ofstream jsonput;
-    jsonput.open("cataloglist.json");
+    jsonput.open(jsonpath.c_str());
     if(!jsonput){
         cout << "ファイル書き込み失敗" << endl;
         return 1;
