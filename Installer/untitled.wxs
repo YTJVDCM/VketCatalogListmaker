@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
-    <Product Id="E23DD1F7-21D9-4E21-B8F2-A71F15A1AA9B" Name="VketCatalogListMaker" Language="1041" Version="1.0.0" Manufacturer="YTJVDCM" UpgradeCode="6D08474F-9D84-4067-BA08-CFE27DC1913F" Codepage="932">
+    <Product Id="47CE74DD-838D-4B56-AE1D-87A95A7EF4FC" Name="VketCatalogListMaker" Language="1041" Version="1.0.1" Manufacturer="YTJVDCM" UpgradeCode="6D08474F-9D84-4067-BA08-CFE27DC1913F" Codepage="932">
         <Package Description="Outputs the URL of the catalog opened in VKet as a JSON file." Comments="Outputs the URL of the catalog opened in VKet as a JSON file." InstallerVersion="200" Compressed="yes" SummaryCodepage="932" Platform="x64" />
         <Media Id="1" Cabinet="simple.cab" EmbedCab="yes" />
         <Directory Id="TARGETDIR" Name="SourceDir">
@@ -9,7 +9,7 @@
                     <Component Id="LISTRESETTER.EXE" DiskId="1" Guid="6BFDA852-1455-4637-AEC7-AC62B7E6E674">
                         <File Id="LISTRESETTER.EXE" Name="ListResetter.exe" Source="C:\Users\ytjvd\Desktop\VketURLImporter\VketCatalogListmaker\release\VketCatalogListMaker\ListResetter.exe" />
                     </Component>
-                    <Component Id="VCLM.EXE" DiskId="1" Guid="E2D14D8D-557E-4940-84CA-7AD7957621E0">
+                    <Component Id="VCLM.EXE" DiskId="1" Guid="4AF15560-C4A9-45C0-B6EA-7A8012F3C77B">
                         <File Id="VCLM.EXE" Name="vclm.exe" Source="C:\Users\ytjvd\Desktop\VketURLImporter\VketCatalogListmaker\release\VketCatalogListMaker\vclm.exe">
                             <Shortcut Id="ExeShortcut" Directory="ProgramMenuDir" Name="VKetCatalogListMaker" Advertise="yes" Icon="StartMenuIcon.exe" IconIndex="0" />
                         </File>
@@ -24,36 +24,54 @@
                         <RegistryValue Id="RegAppRegv" Root="HKLM" Key="SOFTWARE\RegisteredApplications" Name="VCLM" Type="string" Value="SOFTWARE\VCLM\Capabilities" />
                     </Component>
                     <Directory Id="RUNTIME" Name="runtime">
-                        <Component Id="CURL_CA_BUNDLE.CRT" DiskId="1" Guid="19345A0B-95E2-42C1-9194-2687A4314554">
-                            <File Id="CURL_CA_BUNDLE.CRT" Name="curl-ca-bundle.crt" Source="C:\Users\ytjvd\Desktop\VketURLImporter\VketCatalogListmaker\release\VketCatalogListMaker\runtime\curl-ca-bundle.crt" />
+                        <Component Id="CURL_CA_BUNDLE.CRT" DiskId="1" Guid="3D4E6462-B30D-4BEC-B6A9-E277B02AAFC0">
+                            <File Id="CURL_CA_BUNDLE.CRT" Name="curl-ca-bundle.crt" Source="..\release\VketCatalogListMaker\runtime\curl-ca-bundle.crt" />
                         </Component>
-                        <Component Id="CURL.EXE" DiskId="1" Guid="922E9372-7E35-4D3A-B276-5E9856EB0160">
-                            <File Id="CURL.EXE" Name="curl.exe" Source="C:\Users\ytjvd\Desktop\VketURLImporter\VketCatalogListmaker\release\VketCatalogListMaker\runtime\curl.exe" />
+                        <Component Id="CURL.EXE" DiskId="1" Guid="54EF35BC-6DAC-4CB0-83C6-A0E534715329">
+                            <File Id="CURL.EXE" Name="curl.exe" Source="..\release\VketCatalogListMaker\runtime\curl.exe" />
                         </Component>
-                        <Component Id="CYGICONV_2.DLL" DiskId="1" Guid="AE3B96FE-5D28-4601-A890-D26A2CDC4C60">
-                            <File Id="CYGICONV_2.DLL" Name="cygiconv-2.dll" Source="C:\Users\ytjvd\Desktop\VketURLImporter\VketCatalogListmaker\release\VketCatalogListMaker\runtime\cygiconv-2.dll" />
+                        <Component Id="CYGICONV_2.DLL" DiskId="1" Guid="84703855-D328-46B2-A6C2-7DE928AFDDFD">
+                            <File Id="CYGICONV_2.DLL" Name="cygiconv-2.dll" Source="..\release\VketCatalogListMaker\runtime\cygiconv-2.dll" />
                         </Component>
-                        <Component Id="CYGINTL_8.DLL" DiskId="1" Guid="C92DF673-1303-4462-B1F5-0FF9B20CD1D4">
-                            <File Id="CYGINTL_8.DLL" Name="cygintl-8.dll" Source="C:\Users\ytjvd\Desktop\VketURLImporter\VketCatalogListmaker\release\VketCatalogListMaker\runtime\cygintl-8.dll" />
+                        <Component Id="CYGINTL_8.DLL" DiskId="1" Guid="8D8C4F7B-8199-406D-82B3-551A96E3A774">
+                            <File Id="CYGINTL_8.DLL" Name="cygintl-8.dll" Source="..\release\VketCatalogListMaker\runtime\cygintl-8.dll" />
                         </Component>
-                        <Component Id="CYGPCRE_1.DLL" DiskId="1" Guid="E3B9A4F8-BED7-4541-9EE1-DCA2435380F6">
-                            <File Id="CYGPCRE_1.DLL" Name="cygpcre-1.dll" Source="C:\Users\ytjvd\Desktop\VketURLImporter\VketCatalogListmaker\release\VketCatalogListMaker\runtime\cygpcre-1.dll" />
+                        <Component Id="CYGPCRE_1.DLL" DiskId="1" Guid="637BFE6B-201A-4B11-BF5B-CC28A63D7044">
+                            <File Id="CYGPCRE_1.DLL" Name="cygpcre-1.dll" Source="..\release\VketCatalogListMaker\runtime\cygpcre-1.dll" />
                         </Component>
-                        <Component Id="CYGWIN1.DLL" DiskId="1" Guid="FBDAD3D2-4817-4985-ADC9-CD2B12162124">
-                            <File Id="CYGWIN1.DLL" Name="cygwin1.dll" Source="C:\Users\ytjvd\Desktop\VketURLImporter\VketCatalogListmaker\release\VketCatalogListMaker\runtime\cygwin1.dll" />
+                        <Component Id="CYGWIN1.DLL" DiskId="1" Guid="94905ACF-E0DD-4977-812F-CF384010B4C3">
+                            <File Id="CYGWIN1.DLL" Name="cygwin1.dll" Source="..\release\VketCatalogListMaker\runtime\cygwin1.dll" />
                         </Component>
-                        <Component Id="GREP.EXE" DiskId="1" Guid="83EB56D6-6FA7-411E-BA7C-F75284A3F1ED">
-                            <File Id="GREP.EXE" Name="grep.exe" Source="C:\Users\ytjvd\Desktop\VketURLImporter\VketCatalogListmaker\release\VketCatalogListMaker\runtime\grep.exe" />
+                        <Component Id="GREP.EXE" DiskId="1" Guid="03B709D3-6DCF-4D02-948B-0BAD9EDDBDCA">
+                            <File Id="GREP.EXE" Name="grep.exe" Source="..\release\VketCatalogListMaker\runtime\grep.exe" />
                         </Component>
-                        <Component Id="LIBCURL_X64.DLL" DiskId="1" Guid="BB1E9CE3-6D4A-44D8-A965-5F321903F436">
-                            <File Id="LIBCURL_X64.DLL" Name="libcurl-x64.dll" Source="C:\Users\ytjvd\Desktop\VketURLImporter\VketCatalogListmaker\release\VketCatalogListMaker\runtime\libcurl-x64.dll" />
+                        <Component Id="LIBCURL_X64.DLL" DiskId="1" Guid="202E9B1B-F35D-47EB-AAF0-C7E627850CC1">
+                            <File Id="LIBCURL_X64.DLL" Name="libcurl-x64.dll" Source="..\release\VketCatalogListMaker\runtime\libcurl-x64.dll" />
+                        </Component>
+                        <Component Id="LIBICONV_2.DLL" DiskId="1" Guid="1F954818-3D68-4D86-9214-96442CA708E7">
+                            <File Id="LIBICONV_2.DLL" Name="libiconv-2.dll" Source="..\release\VketCatalogListMaker\runtime\libiconv-2.dll" />
+                        </Component>
+                        <Component Id="LIBXML2_2.DLL" DiskId="1" Guid="6CACEC9B-2157-424C-97FB-30C53C39B643">
+                            <File Id="LIBXML2_2.DLL" Name="libxml2-2.dll" Source="..\release\VketCatalogListMaker\runtime\libxml2-2.dll" />
+                        </Component>
+                        <Component Id="SED.EXE" DiskId="1" Guid="C6D6A826-7242-43EE-B65B-3240425B5863">
+                            <File Id="SED.EXE" Name="sed.exe" Source="..\release\VketCatalogListMaker\runtime\sed.exe" />
+                        </Component>
+                        <Component Id="TR.EXE" DiskId="1" Guid="0CB542C8-9268-41F5-8C57-08A7DB10A5FE">
+                            <File Id="TR.EXE" Name="tr.exe" Source="..\release\VketCatalogListMaker\runtime\tr.exe" />
+                        </Component>
+                        <Component Id="XMLLINT.EXE" DiskId="1" Guid="3B546E0C-B1D2-4B75-8D48-18BB2AE8F584">
+                            <File Id="XMLLINT.EXE" Name="xmllint.exe" Source="..\release\VketCatalogListMaker\runtime\xmllint.exe" />
+                        </Component>
+                        <Component Id="ZLIB1.DLL" DiskId="1" Guid="34A65BEE-99BF-4BC7-A7B6-10C4A4D4A2AC">
+                            <File Id="ZLIB1.DLL" Name="zlib1.dll" Source="..\release\VketCatalogListMaker\runtime\zlib1.dll" />
                         </Component>
                     </Directory>
                 </Directory>
             </Directory>
             <Directory Id="ProgramMenuFolder">
                 <Directory Id="ProgramMenuDir" Name="VCLM">
-                    <Component Id="StartMenuShortcuts" Guid="B5FDB9F9-3E2A-44E3-AB86-E0884BE5BEFA">
+                    <Component Id="StartMenuShortcuts" Guid="93C61828-0077-4ACF-A44B-1EB49A4DF071">
                         <RemoveFolder Id="ProgramMenuDir" On="uninstall" />
                         <RegistryValue Root="HKCU" Key="Software\[Manufacturer]\[ProductName]" Type="string" Value="" />
                         <Shortcut Id="JSONReset" Name="DataReset" Description="Reset list data" Target="[#LISTRESETTER.EXE]" />
@@ -73,6 +91,12 @@
             <ComponentRef Id="CYGWIN1.DLL" />
             <ComponentRef Id="GREP.EXE" />
             <ComponentRef Id="LIBCURL_X64.DLL" />
+            <ComponentRef Id="LIBICONV_2.DLL" />
+            <ComponentRef Id="LIBXML2_2.DLL" />
+            <ComponentRef Id="SED.EXE" />
+            <ComponentRef Id="XMLLINT.EXE" />
+            <ComponentRef Id="ZLIB1.DLL" />
+            <ComponentRef Id="TR.EXE" />
             <ComponentRef Id="StartMenuShortcuts" />
         </Feature>
         <UI />
