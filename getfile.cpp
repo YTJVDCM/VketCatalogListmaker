@@ -60,27 +60,21 @@ int main(int argc,char *argv[]){
     if(argv[1][27]=='3'){
         printf("This catalog is Vket3.\n");
         chdir(filepath.c_str());
-        string gettitle="runtime\\curl.exe -s -L \""+url+"\"|runtime\\grep.exe -oP \"(?<=<title>)(.+)(?=</title>)\"";
-        string getworld="runtime\\curl.exe -s -L "+url+"|runtime\\grep.exe -oP \"(?<=<span\\sclass=\\\"world_name\\\">)(.+)(?=</span>)\"";
-        string getsection="runtime\\curl.exe -s -L "+url+"|runtime\\grep.exe -oP \"(?<=<span\\sclass=\\\"section_name\\\">)(.+)(?=</span>)\"";
+        string gettitle="runtime\\curl.exe -s -L \""+url+"\"|runtime\\xmllint.exe --nowarning --noblanks --html --xpath 2>nul normalize-space(//div[@class='user_name']/text()) -";
+        string getworld="runtime\\curl.exe -s -L "+url+"|runtime\\xmllint.exe --nowarning --noblanks --html --xpath 2>nul normalize-space(//span[@class='world_name']/text()) -";
+        string getsection="runtime\\curl.exe -s -L "+url+"|runtime\\xmllint.exe --nowarning --noblanks --html --xpath 2>nul normalize-space(//span[@class='section_name']/text()) -";
         string getheader="runtime\\curl.exe -s -L "+url+"|runtime\\grep.exe -oP \"(?<=<section\\sclass=\\\"user_header\\\"\\sstyle=\\\"background-image:\\surl\\()(.+)(?=\\)\\\">)\"";
-        string geticon="runtime\\curl.exe -s -L "+url+"|runtime\\grep.exe -oP \"(?<=<img\\ssrc=\\\")(.+)(?=\\\"\\sclass=\\\"user_icon\\\">)\"";
-    
-    
-
+        string geticon="runtime\\curl.exe -s -L "+url+"|runtime\\xmllint.exe --nowarning --noblanks --html --xpath 2>nul normalize-space(//img[@class='user_icon']/@src) -";
     
         //こっからデータ取得
         //タイトル
         if((fp=popen(gettitle.c_str(),"r"))==NULL){
         title=url;
-        vket="None";
         }else{
             fgets(titlechar,sizeof(titlechar),fp);
             fgets(vketchar,sizeof(vketchar),fp);
             title=string(titlechar);
-            vket=string(vketchar);
             if(strcmp(titlechar,"")==0)title="Missing\n";
-            if(strcmp(vketchar,"")==0)vket="Missing\n";
         }
         pclose(fp);
 
@@ -123,6 +117,8 @@ int main(int argc,char *argv[]){
             if(strcmp(iconchar,"")==0)icon="image/noimage.png";
         }
         pclose(fp);
+        
+        vket="バーチャルマーケット3"
         //ここまでデータ取得
 
         //グループタグ(Vケット3では存在しないので強制Missing)
