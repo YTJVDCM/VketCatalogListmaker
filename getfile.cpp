@@ -43,6 +43,16 @@ int main(int argc,char *argv[]){
 
     string jsonpath=string(mydocuments)+"\\VketCatalogListMaker\\cataloglist.json";
     
+    int acs = access(jsonpath.c_str(),0);
+    printf("%d",acs);
+    //ファイルの存在チェック(なければ作成)
+    if(acs==-1){
+        string mkdir="mkdir "+string(mydocuments)+"\\VketCatalogListMaker";
+        system(mkdir.c_str());
+        fp = fopen(jsonpath.c_str(),"w");
+        fprintf(fp,"{\"VketData\": []}");
+        fclose(fp);
+    }
 
     //探索用コマンド群
 
