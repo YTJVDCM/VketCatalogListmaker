@@ -9,6 +9,7 @@
                     <Component Id="LISTRESETTER.EXE" DiskId="1" Guid="6BFDA852-1455-4637-AEC7-AC62B7E6E674">
                         <File Id="LISTRESETTER.EXE" Name="ListResetter.exe" Source="C:\Users\ytjvd\Desktop\VketURLImporter\VketCatalogListmaker\release\VketCatalogListMaker\ListResetter.exe" />
                     </Component>
+                    <Component Id="VCLM.EXE" DiskId="1" Guid="4AF15560-C4A9-45C0-B6EA-7A8012F3C77B">
                     <Component Id="VCLM.EXE" DiskId="1" Guid="E2D14D8D-557E-4940-84CA-7AD7957621E0">
                         <File Id="VCLM.EXE" Name="vclm.exe" Source="C:\Users\ytjvd\Desktop\VketURLImporter\VketCatalogListmaker\release\VketCatalogListMaker\vclm.exe">
                             <Shortcut Id="ExeShortcut" Directory="ProgramMenuDir" Name="VKetCatalogListMaker" Advertise="yes" Icon="StartMenuIcon.exe" IconIndex="0" />
@@ -65,7 +66,7 @@
             </Directory>
             <Directory Id="ProgramMenuFolder">
                 <Directory Id="ProgramMenuDir" Name="VCLM">
-                    <Component Id="StartMenuShortcuts" Guid="B5FDB9F9-3E2A-44E3-AB86-E0884BE5BEFA">
+                    <Component Id="StartMenuShortcuts" Guid="93C61828-0077-4ACF-A44B-1EB49A4DF071">
                         <RemoveFolder Id="ProgramMenuDir" On="uninstall" />
                         <RegistryValue Root="HKCU" Key="Software\[Manufacturer]\[ProductName]" Type="string" Value="" />
                         <Shortcut Id="JSONReset" Name="DataReset" Description="Reset list data" Target="[#LISTRESETTER.EXE]" />
