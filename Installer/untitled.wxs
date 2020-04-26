@@ -1,17 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
-    <Product Id="0AF5C3DC-3250-4607-BF6E-5CE2FEC61CFA" Name="VketCatalogListMaker" Language="1041" Version="1.1.0" Manufacturer="YTJVDCM" UpgradeCode="6D08474F-9D84-4067-BA08-CFE27DC1913F" Codepage="932">
+    <Product Id="F0E8AD07-906A-4606-BF95-98A46253E226" Name="VketCatalogListMaker" Language="1041" Version="1.1.0" Manufacturer="YTJVDCM" UpgradeCode="6D08474F-9D84-4067-BA08-CFE27DC1913F" Codepage="932">
         <Package Description="Outputs the URL of the catalog opened in VKet as a JSON file." Comments="Outputs the URL of the catalog opened in VKet as a JSON file." InstallerVersion="200" Compressed="yes" SummaryCodepage="932" Platform="x64" />
         <Media Id="1" Cabinet="simple.cab" EmbedCab="yes" />
         <Directory Id="TARGETDIR" Name="SourceDir">
             <Directory Id="ProgramFiles64Folder" Name="PFiles">
                 <Directory Id="VKETCATALOGLISTMAKER" Name="VketCatalogListMaker">
+                    <Component Id="HTMLMAKER.EXE" DiskId="1" Guid="2DAFE9C6-58C4-458A-B703-5C921686DEBB">
+                        <File Id="HTMLMAKER.EXE" Name="htmlmaker.exe" Source="..\release\VketCatalogListMaker\htmlmaker.exe" />
+                    </Component>
                     <Component Id="LISTRESETTER.EXE" DiskId="1" Guid="6BFDA852-1455-4637-AEC7-AC62B7E6E674">
                         <File Id="LISTRESETTER.EXE" Name="ListResetter.exe" Source="C:\Users\ytjvd\Desktop\VketURLImporter\VketCatalogListmaker\release\VketCatalogListMaker\ListResetter.exe" />
                     </Component>
-                    <Component Id="VCLM.EXE" DiskId="1" Guid="E2D14D8D-557E-4940-84CA-7AD7957621E0">
+                    <Component Id="VCLM.EXE" DiskId="1" Guid="919491FE-2FEA-45AC-AFEA-A5304855A57C">
                         <File Id="VCLM.EXE" Name="vketjson.exe" Source="C:\Users\ytjvd\Desktop\VketURLImporter\VketCatalogListmaker\release\VketCatalogListMaker\vketjson.exe">
-                            <Shortcut Id="ExeShortcut" Directory="ProgramMenuDir" Name="VKetJSON" Advertise="yes" Icon="StartMenuIcon.exe" IconIndex="0" />
+                            <Shortcut Id="ExeShortcut" Directory="ProgramMenuDir" Name="VKetCatalogListMaker" Advertise="yes" Icon="StartMenuIcon.exe" IconIndex="0" />
                         </File>
                         <RegistryValue Id="URLProtcRegv" Root="HKCR" Key="http" Type="string" Value="URL Protocol" />
                         <RegistryValue Id="URLsProtcRegv" Root="HKCR" Key="https" Type="string" Value="URL Protocol" />
@@ -30,9 +33,6 @@
                         <Component Id="CURL.EXE" DiskId="1" Guid="54EF35BC-6DAC-4CB0-83C6-A0E534715329">
                             <File Id="CURL.EXE" Name="curl.exe" Source="..\release\VketCatalogListMaker\runtime\curl.exe" />
                         </Component>
-                        <Component Id="GREP.EXE" DiskId="1" Guid="C33CF214-0016-45A8-BF6C-746C6B4A4C22">
-                            <File Id="GREP.EXE" Name="grep.exe" Source="..\release\VketCatalogListMaker\runtime\grep.exe" />
-                        </Component>
                         <Component Id="CYGICONV_2.DLL" DiskId="1" Guid="84703855-D328-46B2-A6C2-7DE928AFDDFD">
                             <File Id="CYGICONV_2.DLL" Name="cygiconv-2.dll" Source="..\release\VketCatalogListMaker\runtime\cygiconv-2.dll" />
                         </Component>
@@ -44,6 +44,9 @@
                         </Component>
                         <Component Id="CYGWIN1.DLL" DiskId="1" Guid="94905ACF-E0DD-4977-812F-CF384010B4C3">
                             <File Id="CYGWIN1.DLL" Name="cygwin1.dll" Source="..\release\VketCatalogListMaker\runtime\cygwin1.dll" />
+                        </Component>
+                        <Component Id="GREP.EXE" DiskId="1" Guid="648735CE-F2C5-4B89-8BA4-AAF2B0F464AD">
+                            <File Id="GREP.EXE" Name="grep.exe" Source="..\release\VketCatalogListMaker\runtime\grep.exe" />
                         </Component>
                         <Component Id="LIBCURL_X64.DLL" DiskId="1" Guid="202E9B1B-F35D-47EB-AAF0-C7E627850CC1">
                             <File Id="LIBCURL_X64.DLL" Name="libcurl-x64.dll" Source="..\release\VketCatalogListMaker\runtime\libcurl-x64.dll" />
@@ -67,11 +70,12 @@
                 </Directory>
             </Directory>
             <Directory Id="ProgramMenuFolder">
-                <Directory Id="ProgramMenuDir" Name="VketJson">
+                <Directory Id="ProgramMenuDir" Name="VCLM">
                     <Component Id="StartMenuShortcuts" Guid="93C61828-0077-4ACF-A44B-1EB49A4DF071">
                         <RemoveFolder Id="ProgramMenuDir" On="uninstall" />
                         <RegistryValue Root="HKCU" Key="Software\[Manufacturer]\[ProductName]" Type="string" Value="" />
                         <Shortcut Id="JSONReset" Name="DataReset" Description="Reset list data" Target="[#LISTRESETTER.EXE]" />
+                        <Shortcut Id="HTMLMake" Name="HTMLMaker" Description="Convert a JSON file to an HTML file." Target="[#HTMLMAKER.EXE]" />
                         <Shortcut Id="UninstallProduct" Name="Uninstall" Description="Uninstalls the application" Target="[System64Folder]msiexec.exe" Arguments="/x [ProductCode]" />
                     </Component>
                 </Directory>
@@ -79,14 +83,15 @@
         </Directory>
         <Feature Id="DefaultFeature" Title="Main Feature" Level="1">
             <ComponentRef Id="LISTRESETTER.EXE" />
+            <ComponentRef Id="HTMLMAKER.EXE" />
             <ComponentRef Id="VCLM.EXE" />
             <ComponentRef Id="CURL_CA_BUNDLE.CRT" />
             <ComponentRef Id="CURL.EXE" />
-            <ComponentRef Id="GREP.EXE" />
             <ComponentRef Id="CYGICONV_2.DLL" />
             <ComponentRef Id="CYGINTL_8.DLL" />
             <ComponentRef Id="CYGPCRE_1.DLL" />
             <ComponentRef Id="CYGWIN1.DLL" />
+            <ComponentRef Id="GREP.EXE" />
             <ComponentRef Id="LIBCURL_X64.DLL" />
             <ComponentRef Id="LIBICONV_2.DLL" />
             <ComponentRef Id="LIBXML2_2.DLL" />
@@ -97,7 +102,7 @@
         </Feature>
         <UI />
         <UIRef Id="WixUI_InstallDir" />
-        <Icon Id="StartMenuIcon.exe" SourceFile="C:\Users\ytjvd\Desktop\VketURLImporter\VketCatalogListmaker\release\VketCatalogListMaker\vclm.exe" />
+        <Icon Id="StartMenuIcon.exe" SourceFile="C:\Users\ytjvd\Desktop\VketURLImporter\VketCatalogListmaker\release\VketCatalogListMaker\vketjson.exe" />
         <Property Id="WIXUI_INSTALLDIR" Value="VKETCATALOGLISTMAKER" />
         <Binary Id="license.rtf" SourceFile="C:\Users\ytjvd\Desktop\VketURLImporter\VketCatalogListmaker\license.rtf" />
         <WixVariable Id="WixUILicenseRtf" Value="license.rtf" />

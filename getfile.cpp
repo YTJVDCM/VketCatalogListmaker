@@ -58,10 +58,18 @@ int main(int argc,char *argv[]){
 
     //探索用コマンド群
 
+    int chkvket3=0;
+    chdir(filepath.c_str());
+    string checkvket3="runtime\\curl.exe -s -L \""+url+"\"|runtime\\xmllint.exe --nowarning --noblanks --html --xpath 2>nul normalize-space(//title[2]) -";
+    fp=popen(checkvket3.c_str(),"r");
+    char chkvketchar[256];
+    fgets(chkvketchar,sizeof(chkvketchar),fp);
+    if(strcmp(chkvketchar,"バーチャルマーケット３")==0)chkvket3=1;
+    pclose(fp);
+    
     //for Vket3
-    if(argv[1][27]=='3'){
+    if(chkvket3!=0){
         printf("This catalog is Vket3.\n");
-        chdir(filepath.c_str());
         string gettitle="runtime\\curl.exe -s -L \""+url+"\"|runtime\\xmllint.exe --nowarning --noblanks --html --xpath 2>nul normalize-space(//div[@class='user_name']/text()) -";
         string getworld="runtime\\curl.exe -s -L "+url+"|runtime\\xmllint.exe --nowarning --noblanks --html --xpath 2>nul normalize-space(//span[@class='world_name']/text()) -";
         string getsection="runtime\\curl.exe -s -L "+url+"|runtime\\xmllint.exe --nowarning --noblanks --html --xpath 2>nul normalize-space(//span[@class='section_name']/text()) -";
@@ -183,15 +191,12 @@ int main(int argc,char *argv[]){
 
     }else{
         //for Vket 4
-        printf("This catalog is Vket4 or later.\n");
-
-        chdir(filepath.c_str());
         string gettitle="curl.exe -s -L "+url+"|runtime\\xmllint.exe --nowarning --noblanks --html --xpath 2>nul \"normalize-space(//span[@class='circle-card__circle_name']/text())\" -";
         string getarea="runtime\\curl.exe -s -L "+url+"|runtime\\xmllint.exe --nowarning --noblanks --html --xpath 2>nul \"normalize-space(//span[@class='circle-card__section']/text())\" -|runtime\\sed.exe \"s/ - /\\\\n/g\"";
         string getheader="runtime\\curl.exe -s -L "+url+"|runtime\\xmllint.exe --nowarning --noblanks --html --xpath 2>nul normalize-space(//img[@class='circle-card__header-image']/@src) -";
         string geticon="runtime\\curl.exe -s -L "+url+"|runtime\\xmllint.exe --nowarning --noblanks --html --xpath 2>nul normalize-space(//img[@class='circle-card__icon']/@src) -";
     
-
+        printf("This catalog is Vket4 or later.\n");
     
         //こっからデータ取得
         //タイトル
