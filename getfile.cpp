@@ -1,5 +1,7 @@
-#include <bits/stdc++.h>
+#include <iostream>
+#include <fstream>
 #include <sstream>
+#include <string>
 #include <windows.h>//for Windows
 #include <unistd.h>
 #include <shlobj.h>
@@ -41,13 +43,13 @@ int main(int argc,char *argv[]){
     char mydocuments[260];
     SHGetSpecialFolderPath(NULL,mydocuments,CSIDL_PERSONAL,0);
 
-    string jsonpath=string(mydocuments)+"\\VketCatalogListMaker\\cataloglist.json";
+    string jsonpath=string(mydocuments)+"\\VketJSON\\cataloglist.json";
     
     int acs = access(jsonpath.c_str(),0);
     printf("%d",acs);
     //ファイルの存在チェック(なければ作成)
     if(acs==-1){
-        string mkdir="mkdir "+string(mydocuments)+"\\VketCatalogListMaker";
+        string mkdir="mkdir "+string(mydocuments)+"\\VketJSON";
         system(mkdir.c_str());
         fp = fopen(jsonpath.c_str(),"w");
         fprintf(fp,"{\"VketData\": []}");
@@ -118,7 +120,7 @@ int main(int argc,char *argv[]){
         }
         pclose(fp);
         
-        vket="バーチャルマーケット3"
+        vket="バーチャルマーケット3";
         //ここまでデータ取得
 
         //グループタグ(Vケット3では存在しないので強制Missing)
@@ -181,6 +183,7 @@ int main(int argc,char *argv[]){
 
     }else{
         //for Vket 4
+        printf("This catalog is Vket4 or later.\n");
 
         chdir(filepath.c_str());
         string gettitle="curl.exe -s -L "+url+"|runtime\\xmllint.exe --nowarning --noblanks --html --xpath 2>nul \"normalize-space(//span[@class='circle-card__circle_name']/text())\" -";
@@ -242,6 +245,7 @@ int main(int argc,char *argv[]){
         vket="バーチャルマーケット4";
         //ここまでデータ取得
 
+        printf("Data acquisition completed!\n");
         //JSONデータ作成
         picojson::value v;
         ifstream json;
@@ -294,8 +298,6 @@ int main(int argc,char *argv[]){
 
         //デバッグ用出力
         cout << "Title: " << title << "Vket:" << vket << "World: " << world << "Group: " << group << "Section: " << section << endl;
-    }
-
     }
     
     return 0;

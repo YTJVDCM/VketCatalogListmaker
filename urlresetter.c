@@ -10,8 +10,8 @@ int main(){
     char documents[260];
     SHGetSpecialFolderPath(NULL,documents,CSIDL_PERSONAL,0);
     chdir(documents);
-    system("mkdir VketCatalogListMaker");
-    chdir("./VketCatalogListMaker");
+    system("mkdir VketJSON");
+    chdir("./VketJSON");
     FILE *fp;
     system("rm cataloglist.json");
     fp = fopen("cataloglist.json","w");
