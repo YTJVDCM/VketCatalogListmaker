@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
-    <Product Id="30BD879D-2EEB-4E61-9135-8AEFDE676A2B" Name="VketCatalogListMaker" Language="1041" Version="1.1.0" Manufacturer="YTJVDCM" UpgradeCode="6D08474F-9D84-4067-BA08-CFE27DC1913F" Codepage="932">
+    <Product Id="0AF5C3DC-3250-4607-BF6E-5CE2FEC61CFA" Name="VketCatalogListMaker" Language="1041" Version="1.1.0" Manufacturer="YTJVDCM" UpgradeCode="6D08474F-9D84-4067-BA08-CFE27DC1913F" Codepage="932">
         <Package Description="Outputs the URL of the catalog opened in VKet as a JSON file." Comments="Outputs the URL of the catalog opened in VKet as a JSON file." InstallerVersion="200" Compressed="yes" SummaryCodepage="932" Platform="x64" />
         <Media Id="1" Cabinet="simple.cab" EmbedCab="yes" />
         <Directory Id="TARGETDIR" Name="SourceDir">
@@ -9,7 +9,6 @@
                     <Component Id="LISTRESETTER.EXE" DiskId="1" Guid="6BFDA852-1455-4637-AEC7-AC62B7E6E674">
                         <File Id="LISTRESETTER.EXE" Name="ListResetter.exe" Source="C:\Users\ytjvd\Desktop\VketURLImporter\VketCatalogListmaker\release\VketCatalogListMaker\ListResetter.exe" />
                     </Component>
-                    <Component Id="VCLM.EXE" DiskId="1" Guid="4AF15560-C4A9-45C0-B6EA-7A8012F3C77B">
                     <Component Id="VCLM.EXE" DiskId="1" Guid="E2D14D8D-557E-4940-84CA-7AD7957621E0">
                         <File Id="VCLM.EXE" Name="vketjson.exe" Source="C:\Users\ytjvd\Desktop\VketURLImporter\VketCatalogListmaker\release\VketCatalogListMaker\vketjson.exe">
                             <Shortcut Id="ExeShortcut" Directory="ProgramMenuDir" Name="VKetJSON" Advertise="yes" Icon="StartMenuIcon.exe" IconIndex="0" />

@@ -2,16 +2,18 @@ require 'json'
 require 'time'
 require 'open3'
 
+ENV['INLINEDIR'] = File.dirname(File.expand_path(__FILE__))
+
 o,s=Open3.capture2("powershell -Command \"[Environment]::GetFolderPath('MyDocuments')\"")
 o = o.chomp
 p o
+t=Time.now
 File.open(o+"\\VketJSON\\cataloglist.json","r") do |f|
     data=f.read
     jsondata=JSON.parse(data)
     p jsondata["VketData"].length
     p jsondata["VketData"][0]
-    t=Time.now
-    filetimedata=o+"\\Output-"+t.year.to_s+"-"+t.month.to_s+"-"+t.day.to_s+"-"+t.hour.to_s+"-"+t.min.to_s+"-"+t.sec.to_s+".html"
+    filetimedata=o+"\\VketJSON\\Output-"+t.year.to_s+"-"+t.month.to_s+"-"+t.day.to_s+"-"+t.hour.to_s+"-"+t.min.to_s+"-"+t.sec.to_s+".html"
     File.open(filetimedata,"w") do |fw|
         fw.puts("<!DOCTYPE html>")
         fw.puts("<html lang=\"ja\">")
@@ -35,3 +37,6 @@ File.open(o+"\\VketJSON\\cataloglist.json","r") do |f|
         fw.puts("</html>")
     end
 end
+rename="REN \""+o+"\\VketJSON\\cataloglist.json\" cataloglist-"+t.year.to_s+"-"+t.month.to_s+"-"+t.day.to_s+"-"+t.hour.to_s+"-"+t.min.to_s+"-"+t.sec.to_s+".json\""
+p rename
+Open3.capture2(rename)
