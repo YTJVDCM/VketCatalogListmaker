@@ -38,3 +38,5 @@
 - [PicoJSON](https://github.com/kazuho/picojson)
 
 - [WiX Toolset](https://wixtoolset.org/)
+
+- [Ocra](https://github.com/larsch/ocra)
