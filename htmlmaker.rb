@@ -26,7 +26,7 @@ File.open(o+"\\VketJSON\\cataloglist.json","r") do |f|
         for i in 0..jsondata["VketData"].length-1 do
             fw.puts("<div style=\"background-color:white;background-image:url(\'"+jsondata["VketData"][i]["Header"].chomp+"\');background-size: cover;padding:20px;margin:1%;display:inline-block;width:40%\">")
             fw.puts("<li><a href=\""+jsondata["VketData"][i]["URL"]+"\"><img src=\""+jsondata["VketData"][i]["Icon"]+"\" width=128px height=128px style=\"border-radius:50%;vertical-align:middle;margin:20px;\"><h2 style=\"color:white;font-size:200%;display:inline;margin:20px;\">"+jsondata["VketData"][i]["Title"]+"</h2></a></li>")
-            fw.puts("<span style=\"margin:10px;\">World : "+jsondata["VketData"][i]["World"]+"</span><br>")
+            fw.puts("<span style=\"margin:10px;\">World : "+jsondata["VketData"][i]["World"]+"</span><br>") if jsondata["VketData"][i]["World"] != "Missing"
             fw.puts("<span style=\"margin:10px;\">Group : "+jsondata["VketData"][i]["Group"]+"</span><br>") if jsondata["VketData"][i]["Group"] != "Missing"
             fw.puts("<span style=\"margin:10px;\">Section : "+jsondata["VketData"][i]["Section"]+"</span><br>") if jsondata["VketData"][i]["Section"] != "Missing"
             fw.puts("<span style=\"margin:10px;\">Vket : "+jsondata["VketData"][i]["Vket"]+"</span><br>") if jsondata["VketData"][i]["Vket"] != "Missing"

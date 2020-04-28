@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
-    <Product Id="F0E8AD07-906A-4606-BF95-98A46253E226" Name="VketCatalogListMaker" Language="1041" Version="1.1.0" Manufacturer="YTJVDCM" UpgradeCode="6D08474F-9D84-4067-BA08-CFE27DC1913F" Codepage="932">
+    <Product Id="BBFAE4E7-100F-4B5E-B6D8-EE34A56C5513" Name="VketCatalogListMaker" Language="1041" Version="1.1.1" Manufacturer="YTJVDCM" UpgradeCode="6D08474F-9D84-4067-BA08-CFE27DC1913F" Codepage="932">
         <Package Description="Outputs the URL of the catalog opened in VKet as a JSON file." Comments="Outputs the URL of the catalog opened in VKet as a JSON file." InstallerVersion="200" Compressed="yes" SummaryCodepage="932" Platform="x64" />
         <Media Id="1" Cabinet="simple.cab" EmbedCab="yes" />
         <Directory Id="TARGETDIR" Name="SourceDir">
